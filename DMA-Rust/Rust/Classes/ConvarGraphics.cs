@@ -7,25 +7,24 @@ using static DMA_Rust.mem.memory;
 
 namespace DMA_Rust.Rust.Classes
 {
-    public class Playermodel
+    public class ConvarGraphics
     {
-        public static ulong PM;
+        public static ulong CG;
 
-        public static bool BuildPlayerModel()
+        public static bool getConvarGraphics()
         {
-            PM = ReadMemory<ulong>(BasePlayer.BP + 0x598);
-            if (PM == 0)
+            ulong graphics = ReadMemory<ulong>(GameAssembly.vaBase + Offsets.ConVar_Graphics_c);
+            CG = ReadMemory<ulong>(graphics + 0xB8);
+            if (CG == 0)
             {
                 return false;
             }
 
             Console.ForegroundColor = ConsoleColor.Green; // Set color to Green
-            Console.WriteLine("[Classes] Found PlayerModel at: 0x" + PM.ToString("X"));
+            Console.WriteLine("[Classes] Found Convar_Graphics at: 0x" + CG.ToString("X"));
             Console.ResetColor();
             return true;
 
         }
-
-
     }
 }

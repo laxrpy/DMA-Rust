@@ -7,14 +7,18 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
+using DMA_Rust.Rust.Classes;
+using DMA_Rust.Rust;
 
 namespace DMA_Rust.mem
 {
-    public class memory
+    public static class memory
     {
         public static uint _pid = 0;
         public static Vmm vmm = new Vmm("-printf", "-v", "-device", "fpga");
         public static Vmm.MAP_MODULEENTRY GameAssembly;
+        public static Thread UpdateThread_;
 
 
         public static void StartUp()
@@ -39,13 +43,19 @@ namespace DMA_Rust.mem
 
                 if (FixCr3()){
 
-                    Console.Write("LWIDWD");
+                    BuildClasses();
                 }
             }
 
 
-
-
+            void BuildClasses()
+            {
+                if (BasePlayer.BuildBasePlayer() && Playermodel.BuildPlayerModel() && Tod_sky.BuildTOD() && ConvarGraphics.getConvarGraphics() == true)
+                {
+                    UpdateThread_ = new Thread(UpdateThread.UTBegin);
+                    UpdateThread_.Start();
+                }  
+            }
 
 
 
@@ -57,7 +67,7 @@ namespace DMA_Rust.mem
                 {
                     Console.ForegroundColor = ConsoleColor.Green; // Set color to Green
 
-                    Console.Write("[Success] Found GameAssembly.dll at:   0x" + GameAssembly.vaBase.ToString("X"));
+                    Console.WriteLine("[Success] Found GameAssembly.dll at:   0x" + GameAssembly.vaBase.ToString("X"));
                     Console.ResetColor();
                     return true;
                 }
@@ -147,20 +157,7 @@ namespace DMA_Rust.mem
                 return false;
             }
 
-
-
-
-
         }
-
-
-
-
-
-
-
-
-
 
         #region Read/Write
 
@@ -215,6 +212,115 @@ namespace DMA_Rust.mem
             return buffer;
         }
 
+
+
+        public static bool ReadUnicode(ulong address, int length, out string value)
+        {
+            value = null;
+            if (vmm.ReadUtfUnicode8Memory(address, 2 * (uint)length, out var buffer))
+            {
+                string text = new string(Encoding.Unicode.GetChars(buffer));
+                value = text.Split(default(char))[0];
+                return true;
+            }
+
+            return false;
+        }
+
+
+
+
+        #region CopyPasta
+
+        public static byte[] ReadStrBytes(ulong address, int size)
+        {
+
+            var buffer = new byte[size];
+
+            var buf = vmm.MemRead(_pid, address, (uint)size, Vmm.FLAG_NOCACHE);
+            buffer = buf.ToArray();
+
+            return buffer;
+        }
+        public static T Median<T>(this IEnumerable<T> items)
+        {
+            var i = (int)Math.Ceiling((double)(items.Count() - 1) / 2);
+            if (i >= 0)
+            {
+                var values = items.ToList();
+                values.Sort();
+                return values[i];
+            }
+
+            return default(T);
+        }
+
+
+        public static bool IsValidPointer(ulong address)
+        {
+            if (address >= 0x1000000 && address < 0x7FFFFFFFFFF)
+
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static T ReadNormandy<T>(ulong address, bool reportValidation = true, bool validatePointer = true)
+        {
+            try
+            {
+                var size = Marshal.SizeOf(typeof(T));
+                var buffer = new byte[size];
+
+
+                buffer = ReadStrBytes(address, size);
+                var handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+                var data = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
+                handle.Free();
+
+                return data;
+            }
+            catch (Exception)
+            {
+                return default(T);
+            }
+        }
+
+        public static T ReadChain<T>(ulong address, uint[] offsets, bool reportValidation = true)
+        {
+            try
+            {
+                var size = Marshal.SizeOf(typeof(T));
+                var buffer = new byte[size];
+
+
+                for (int i = 0; i < offsets.Length - 1; i++)
+                {
+
+                    address += offsets[i];
+                    address = ReadNormandy<ulong>(address);
+
+                    if (IsValidPointer(address) == false)
+                    {
+                        return default(T);
+                    }
+                }
+
+                buffer = ReadStrBytes(address + offsets[offsets.Length - 1], size);
+                var handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+                var data = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
+                handle.Free();
+
+                return data;
+            }
+            catch (Exception)
+            {
+                return default(T);
+            }
+        }
+
+        #endregion
 
         #endregion
 

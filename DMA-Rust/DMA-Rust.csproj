@@ -84,9 +84,13 @@
     <Compile Include="mem\Wrapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rust\Classes\LocalPlayer.cs" />
+    <Compile Include="Rust\bools.cs" />
+    <Compile Include="Rust\Classes\BasePlayer.cs" />
+    <Compile Include="Rust\Classes\ConvarGraphics.cs" />
     <Compile Include="Rust\Classes\Playermodel.cs" />
-    <Compile Include="Rust\UpdateThread.cs" />
+    <Compile Include="Rust\Classes\Tod_sky.cs" />
+    <Compile Include="Rust\Offsets.cs" />
+    <Compile Include="Rust\Threads\UpdateThread.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

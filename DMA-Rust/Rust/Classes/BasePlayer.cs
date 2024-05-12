@@ -5,27 +5,30 @@ using System.Text;
 using System.Threading.Tasks;
 using static DMA_Rust.mem.memory;
 
+
 namespace DMA_Rust.Rust.Classes
 {
-    public class Playermodel
+    
+    public class BasePlayer
     {
-        public static ulong PM;
+        public static ulong BP = 0;
 
-        public static bool BuildPlayerModel()
+
+        public static bool BuildBasePlayer()
         {
-            PM = ReadMemory<ulong>(BasePlayer.BP + 0x598);
-            if (PM == 0)
+
+            BP = ReadChain<ulong>(GameAssembly.vaBase, Offsets.BasePlayerChain);
+            if (BP == 0)
             {
                 return false;
             }
 
             Console.ForegroundColor = ConsoleColor.Green; // Set color to Green
-            Console.WriteLine("[Classes] Found PlayerModel at: 0x" + PM.ToString("X"));
+            Console.WriteLine("[Classes] Found BasePlayer at: 0x" + BP.ToString("X"));
             Console.ResetColor();
             return true;
-
         }
-
+        
 
     }
 }

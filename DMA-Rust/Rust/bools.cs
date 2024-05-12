@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace DMA_Rust.Rust
 {
-    public class UpdateThread
+    public class bools
     {
-
-
+        public static bool BrightNight = false;
+        public static int FOV_Value = 0;
+        public static bool FOVChanger = false;
     }
 }

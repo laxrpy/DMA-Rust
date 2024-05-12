@@ -21,7 +21,7 @@ using System.Runtime.InteropServices.ComTypes;
  *  Version 5.9
  *  
  */
-namespace RustLOL.Wrapper
+namespace wrapper
 {
     public struct MEM_SCATTER
     {

@@ -31,6 +31,7 @@
             this.materialSwitch_BrightNight = new MaterialSkin.Controls.MaterialSwitch();
             this.materialSlider_FOVChanger = new MaterialSkin.Controls.MaterialSlider();
             this.materialSwitch_FovChanger = new MaterialSkin.Controls.MaterialSwitch();
+            this.materialSwitch_Chams = new MaterialSkin.Controls.MaterialSwitch();
             this.SuspendLayout();
             // 
             // materialSwitch_BrightNight
@@ -80,11 +81,28 @@
             this.materialSwitch_FovChanger.UseVisualStyleBackColor = true;
             this.materialSwitch_FovChanger.CheckedChanged += new System.EventHandler(this.materialSwitch_FovChanger_CheckedChanged);
             // 
+            // materialSwitch_Chams
+            // 
+            this.materialSwitch_Chams.AutoSize = true;
+            this.materialSwitch_Chams.Depth = 0;
+            this.materialSwitch_Chams.Location = new System.Drawing.Point(3, 114);
+            this.materialSwitch_Chams.Margin = new System.Windows.Forms.Padding(0);
+            this.materialSwitch_Chams.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.materialSwitch_Chams.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialSwitch_Chams.Name = "materialSwitch_Chams";
+            this.materialSwitch_Chams.Ripple = true;
+            this.materialSwitch_Chams.Size = new System.Drawing.Size(108, 37);
+            this.materialSwitch_Chams.TabIndex = 4;
+            this.materialSwitch_Chams.Text = "Chams";
+            this.materialSwitch_Chams.UseVisualStyleBackColor = true;
+            this.materialSwitch_Chams.CheckedChanged += new System.EventHandler(this.materialSwitch_Chams_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(480, 545);
+            this.Controls.Add(this.materialSwitch_Chams);
             this.Controls.Add(this.materialSwitch_FovChanger);
             this.Controls.Add(this.materialSlider_FOVChanger);
             this.Controls.Add(this.materialSwitch_BrightNight);
@@ -99,6 +117,7 @@
         private MaterialSkin.Controls.MaterialSwitch materialSwitch_BrightNight;
         private MaterialSkin.Controls.MaterialSlider materialSlider_FOVChanger;
         private MaterialSkin.Controls.MaterialSwitch materialSwitch_FovChanger;
+        private MaterialSkin.Controls.MaterialSwitch materialSwitch_Chams;
     }
 }
 

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -21,6 +22,7 @@ namespace DMA_Rust
             InitializeComponent();
             mem.memory.StartUp();
             materialSlider_FOVChanger.Hide();
+
         }
 
         private void materialSwitch_BrightNight_CheckedChanged(object sender, EventArgs e)
@@ -50,9 +52,30 @@ namespace DMA_Rust
                 materialSlider_FOVChanger.Hide();
             }
         }
+
+
+
         #endregion
 
+        private void materialSwitch_Chams_CheckedChanged(object sender, EventArgs e)
+        {
+            bools.Chams = materialSwitch_Chams.Checked;
+        }
 
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void materialLabel_DMAStatus_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label_DMAStatus_Click(object sender, EventArgs e)
+        {
+
+        }
 
 
     }

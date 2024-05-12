@@ -1,4 +1,4 @@
-﻿using RustLOL.Wrapper;
+﻿using wrapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,20 +10,39 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using DMA_Rust.Rust.Classes;
 using DMA_Rust.Rust;
+using System.IO;
 
 namespace DMA_Rust.mem
 {
     public static class memory
     {
         public static uint _pid = 0;
-        public static Vmm vmm = new Vmm("-printf", "-v", "-device", "fpga");
+        //public static Vmm vmm = new Vmm("-printf", "-v", "-device", "fpga");
         public static Vmm.MAP_MODULEENTRY GameAssembly;
         public static Thread UpdateThread_;
-
+        public static Thread EntityListThread_;
+        private static Vmm vmm;
+        public static Form1 formMain;
+        public static bool IsDMAConnected = false;
 
         public static void StartUp()
         {
-            Thread.Sleep(1000);
+
+            if (!File.Exists("mmap.txt"))
+            {
+                vmm = new Vmm("-printf", "-v", "-device", "fpga", "-waitinitialize");
+                GetMemMap();
+            }
+            else
+            {
+                vmm = new Vmm("-printf", "-v", "-device", "fpga", "-memmap", "mmap.txt");
+                IsDMAConnected = true;
+            }
+
+
+
+            Thread.Sleep(2000);
+
             if (!vmm.PidGetFromName("RustClient.exe", out _pid))
             {
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -36,6 +55,7 @@ namespace DMA_Rust.mem
                 Console.WriteLine("[Success] Found Rust PID at:  " + _pid);
                 Console.ResetColor();
             }
+
 
 
 
@@ -54,6 +74,7 @@ namespace DMA_Rust.mem
                 {
                     UpdateThread_ = new Thread(UpdateThread.UTBegin);
                     UpdateThread_.Start();
+
                 }  
             }
 
@@ -158,6 +179,26 @@ namespace DMA_Rust.mem
             }
 
         }
+
+        private static void GetMemMap()
+        {
+            try
+            {
+                var map = vmm.Map_GetPhysMem();
+                if (map.Length == 0) throw new Exception("Map_GetPhysMem() returned no entries!");
+                var sb = new StringBuilder();
+                for (int i = 0; i < map.Length; i++)
+                {
+                    sb.AppendLine($"{i.ToString("D4")}  {map[i].pa.ToString("x")}  -  {(map[i].pa + map[i].cb - 1).ToString("x")}  ->  {map[i].pa.ToString("x")}");
+                }
+                File.WriteAllText("mmap.txt", sb.ToString());
+            }
+            catch (Exception ex)
+            {
+               Console.WriteLine("Unable to get MMap" +ex.ToString());
+            }
+        }
+
 
         #region Read/Write
 

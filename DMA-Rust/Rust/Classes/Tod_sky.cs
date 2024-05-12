@@ -15,6 +15,9 @@ namespace DMA_Rust.Rust.Classes
             TS = ReadChain<ulong>(GameAssembly.vaBase, Offsets.TodChain);
             if (TS == 0)
             {
+                Console.ForegroundColor = ConsoleColor.Red; // Set color to Green
+                Console.WriteLine("[ERROR] Failed to Find TOD_Sky at: 0x" + TS.ToString("X"));
+                Console.ResetColor();
                 return false;
             }
 

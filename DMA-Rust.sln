@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DMA-Rust", "DMA-Rust\DMA-Rust.csproj", "{F9B347AC-EE87-4969-A951-9E5EA1DF874B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F9B347AC-EE87-4969-A951-9E5EA1DF874B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9B347AC-EE87-4969-A951-9E5EA1DF874B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9B347AC-EE87-4969-A951-9E5EA1DF874B}.Debug|x64.ActiveCfg = Debug|x64
+		{F9B347AC-EE87-4969-A951-9E5EA1DF874B}.Debug|x64.Build.0 = Debug|x64
+		{F9B347AC-EE87-4969-A951-9E5EA1DF874B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9B347AC-EE87-4969-A951-9E5EA1DF874B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9B347AC-EE87-4969-A951-9E5EA1DF874B}.Release|x64.ActiveCfg = Release|x64
+		{F9B347AC-EE87-4969-A951-9E5EA1DF874B}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC7D4F9E-F820-4CC8-BF59-E4BBF13C9AEF}
+	EndGlobalSection
+EndGlobal
